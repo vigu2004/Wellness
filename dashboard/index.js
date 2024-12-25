@@ -1,3 +1,10 @@
+require('dotenv').config(); // Load environment variables
+
+const { MongoClient } = require('mongodb');
+
+const uri = process.env.MONGO_URI; // Access the connection string from the environment variable
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,10 +16,6 @@ const PORT = 5000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-
-// MongoDB Connection String (Replace with your actual URI)
-const uri = '';
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // POST endpoint to add a session
 app.post('/api/sessions', async (req, res) => {
