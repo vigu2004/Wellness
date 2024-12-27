@@ -50,7 +50,7 @@ const Hero = () => {
               animate="animate"
               className="flex justify-center md:justify-start"
             >
-              <Link to="https://t.me/wellness_MITbot" className="primary-btn flex items-center gap-2 group">
+              <Link to="/signup" className="primary-btn flex items-center gap-2 group">
                 Get Started
                 <IoIosArrowRoundForward className="text-xl group-hover:translate-x-2 group-hover:-rotate-45 duration-300" />
               </Link>
