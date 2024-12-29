@@ -22,7 +22,7 @@ const Banner2 = () => {
               incidunt!
             </p>
             <a
-              href="https://chat.whatsapp.com/FQSKgJ5f1eIAhlyF5sVym0"
+              href=""
               className="primary-btn !mt-8"
             >
               Join Now

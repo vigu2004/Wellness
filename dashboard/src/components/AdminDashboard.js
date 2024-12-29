@@ -15,33 +15,39 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <nav className="dashboard-nav">
+      <header className="navbar">
+        <div className="logo">
+          <span>Wellness Program</span>
+        </div>
+        <nav className="navbar-nav">
           <ul>
-            <li>Home</li>
-            <li>Sessions</li>
-            <li>Members</li>
-            <li>Reports</li>
-            <li>Settings</li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#sessions">Sessions</a></li>
+            <li><a href="#members">Members</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a href="#settings">Settings</a></li>
           </ul>
         </nav>
       </header>
 
-      <main className="dashboard-content">
+      <div className="dashboard-content">
+        <section className="dashboard-header">
+          <h1>Admin Dashboard</h1>
+        </section>
+
         <section className="dashboard-stats">
-          <div className="stat-card">
+          <div className="card">
             <h3>Total Sessions</h3>
             <p>25</p>
           </div>
-          <div className="stat-card">
+          <div className="card">
             <h3>Total Members</h3>
             <p>150</p>
           </div>
         </section>
 
         <section className="session-management">
-          <h2>Manage Sessions</h2>
+          <h1>Manage Sessions ------------> </h1> 
           <div className="action-buttons">
             <button onClick={handleAddSessionClick} className="button-primary">
               Add New Session
@@ -52,7 +58,7 @@ const AdminDashboard = () => {
         </section>
 
         {showAddSessionForm && <AddSessionForm closeForm={closeForm} />}
-      </main>
+      </div>
     </div>
   );
 };
