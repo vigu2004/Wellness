@@ -7,6 +7,7 @@ import Subscribe from "./components/Subscribe/Subscribe";
 import Banner2 from "./components/Banner/Banner2";
 import Footer from "./components/Footer/Footer";
 import Signup from "./components/Signup/Signup";
+import PricingApp from "./components/PricingApp/PricingApp";  // Import PricingApp
 
 const App = () => {
   return (
@@ -22,7 +23,8 @@ const App = () => {
             <Banner2 />
             <Footer />
           </>} />
-          <Route path="/signup" element={<Signup />} /> {/* Add Signup route */}
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/pricing" element={<PricingApp />} /> {/* Add PricingApp Route */}
         </Routes>
       </main>
     </Router>
