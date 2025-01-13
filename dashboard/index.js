@@ -1,14 +1,14 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 
 const { MongoClient } = require('mongodb');
 
-const uri = process.env.MONGO_URI; // Access the connection string from the environment variable
+const uri = process.env.MONGO_URI; 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+
 
 const app = express();
 const PORT = 5000;
