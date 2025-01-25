@@ -6,7 +6,7 @@ const AddSessionForm = ({ closeForm }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [batch, setBatch] = useState('');
-  const [batches, setBatches] = useState([]); // State to store batches
+  const [batches, setBatches] = useState([]); 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch batches dynamically when the component mounts
@@ -17,8 +17,6 @@ const AddSessionForm = ({ closeForm }) => {
         const result = await response.json();
 
         if (response.ok) {
-          console.log("Fetched batches:", result);  // Log fetched batches here
-          alert("Batches fetched successfully");
           setBatches(result); // Set batches to state
         } else {
           console.error("Failed to load batches");
@@ -32,11 +30,6 @@ const AddSessionForm = ({ closeForm }) => {
 
     fetchBatches();
   }, []); // Empty dependency array ensures this runs only once when the component mounts
-
-  // Log the batches whenever they change
-  useEffect(() => {
-    console.log("Updated batches state:", batches); // Log updated batches state
-  }, [batches]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,13 +109,12 @@ const AddSessionForm = ({ closeForm }) => {
               {batches.length > 0 ? (
                 batches.map((batch) => (
                   <option key={batch.id} value={batch.id}>
-                    {batch.name} {/* Display batch name */}
+                    {batch.batch_name} {/* Display batch name */}
                   </option>
                 ))
               ) : (
                 <option disabled>No batches available</option> // Show a fallback message if no batches
               )}
-              <option value="6">Test Batch 6</option> {/* Test Batch */}
             </select>
           </label>
           <div className="form-buttons">
