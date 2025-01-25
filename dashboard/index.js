@@ -1,10 +1,5 @@
 require('dotenv').config();
-
-const { MongoClient } = require('mongodb');
-
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+const mysql = require('mysql2/promise');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -16,37 +11,49 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// MySQL connection pool
+const pool = mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
 // POST endpoint to add a session
 app.post('/api/sessions', async (req, res) => {
-    const { sessionName, date, time, description } = req.body;
+    const { sessionId, sessionName, date, time, batch } = req.body;
 
     // Validate input
-    if (!sessionName || !date || !time || !description) {
+    if (!sessionId || !sessionName || !date || !time || !batch) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     try {
-        await client.connect();
-        const database = client.db('Wellness'); // Replace with your database name
-        const collection = database.collection('Session');
+        // Insert session data into MySQL
+        const query = `
+            INSERT INTO sessions (id, name, date, time, batches, created_at)
+            VALUES (?, ?, ?, ?, ?, NOW())
+        `;
+        const [result] = await pool.execute(query, [sessionId, sessionName, date, time, batch]);
 
-        // Add session with current timestamp
-        const currentTime = new Date(); // Current date and time
-        const sessionData = {
-            sessionName,
-            date,
-            time,
-            description,
-            createdAt: currentTime // Add timestamp
-        };
-
-        const result = await collection.insertOne(sessionData);
-        res.status(201).json({ message: 'Session added successfully', sessionId: result.insertedId });
+        res.status(201).json({ message: 'Session added successfully', sessionId: result.insertId });
     } catch (error) {
         console.error('Error adding session:', error);
         res.status(500).json({ error: 'Internal Server Error' });
-    } finally {
-        await client.close();
+    }
+});
+// GET endpoint to fetch all batches
+app.get('/api/batches', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM batches'; // Fetch all batches
+        const [batches] = await pool.execute(query);
+        res.status(200).json(batches); // Return all batches as JSON
+    } catch (error) {
+        console.error('Error fetching batches:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

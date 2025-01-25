@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddSessionForm.css';
 
 const AddSessionForm = ({ closeForm }) => {
@@ -6,7 +6,37 @@ const AddSessionForm = ({ closeForm }) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [batch, setBatch] = useState('');
+  const [batches, setBatches] = useState([]); // State to store batches
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Fetch batches dynamically when the component mounts
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/batches');
+        const result = await response.json();
+
+        if (response.ok) {
+          console.log("Fetched batches:", result);  // Log fetched batches here
+          alert("Batches fetched successfully");
+          setBatches(result); // Set batches to state
+        } else {
+          console.error("Failed to load batches");
+          alert("Failed to load batches");
+        }
+      } catch (error) {
+        console.error('Error fetching batches:', error);
+        alert("An error occurred while fetching batches");
+      }
+    };
+
+    fetchBatches();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+  // Log the batches whenever they change
+  useEffect(() => {
+    console.log("Updated batches state:", batches); // Log updated batches state
+  }, [batches]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +45,7 @@ const AddSessionForm = ({ closeForm }) => {
       sessionName,
       date,
       time,
-      batch,
+      batch, // Send batch ID
     };
 
     setIsSubmitting(true);
@@ -83,9 +113,16 @@ const AddSessionForm = ({ closeForm }) => {
               required
             >
               <option value="" disabled>Select Batch</option>
-              <option value="Batch A">Batch A</option>
-              <option value="Batch B">Batch B</option>
-              <option value="Batch C">Batch C</option>
+              {batches.length > 0 ? (
+                batches.map((batch) => (
+                  <option key={batch.id} value={batch.id}>
+                    {batch.name} {/* Display batch name */}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No batches available</option> // Show a fallback message if no batches
+              )}
+              <option value="6">Test Batch 6</option> {/* Test Batch */}
             </select>
           </label>
           <div className="form-buttons">

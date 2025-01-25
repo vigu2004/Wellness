@@ -54,7 +54,8 @@ form label {
 
 /* Form Inputs */
 form input,
-form textarea {
+form textarea,
+form select {
   width: 100%;
   padding: 1rem; /* Increased padding */
   margin-bottom: 1.5rem; /* Improved spacing */
@@ -68,6 +69,23 @@ form textarea {
 form textarea {
   resize: none;
   height: 120px; /* Increased height for better usability */
+}
+
+/* Dropdown Specific Styling */
+form select {
+  background-color: #fff;
+  color: #333; /* Darker text for contrast */
+}
+
+/* Option Text Color */
+form select option {
+  background-color: #fff;
+  color: #333; /* Dark text for better visibility */
+}
+
+/* Option Hover Effect */
+form select option:hover {
+  background-color: #f1f1f1; /* Light background on hover */
 }
 
 /* Button Container */
