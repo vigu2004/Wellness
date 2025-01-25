@@ -1,14 +1,13 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
 
 const { MongoClient } = require('mongodb');
 
-const uri = process.env.MONGO_URI; // Access the connection string from the environment variable
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
 
 const app = express();
 const PORT = 5000;
@@ -29,9 +28,19 @@ app.post('/api/sessions', async (req, res) => {
     try {
         await client.connect();
         const database = client.db('Wellness'); // Replace with your database name
-        const collection = database.collection('Session'); 
+        const collection = database.collection('Session');
 
-        const result = await collection.insertOne({ sessionName, date, time, description });
+        // Add session with current timestamp
+        const currentTime = new Date(); // Current date and time
+        const sessionData = {
+            sessionName,
+            date,
+            time,
+            description,
+            createdAt: currentTime // Add timestamp
+        };
+
+        const result = await collection.insertOne(sessionData);
         res.status(201).json({ message: 'Session added successfully', sessionId: result.insertedId });
     } catch (error) {
         console.error('Error adding session:', error);
