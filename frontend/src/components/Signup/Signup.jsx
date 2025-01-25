@@ -3,14 +3,43 @@ import './Signup.css';
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    full_name: '',  // Changed from 'name' to 'full_name'
+    email: '',
+    phone: '',
+    dob: '',
+    wellness_goal: '',  // Changed from 'goals' to 'wellness_goal'
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsLoading(false);
-    alert('Welcome to our Wellness Program! Your journey to better health begins now.');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(`User registered successfully with ID: ${result.user_id}`);
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.message}`);
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      alert('An error occurred while registering. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -18,17 +47,19 @@ const Signup = () => {
       <div className="background-pattern"></div>
       <div className="fitness-icon fitness-icon-left"></div>
       <div className="fitness-icon fitness-icon-right"></div>
-      
+
       <div className="signup-form">
         <div className="form-icon"></div>
         <h2>Join Our Wellness Journey</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="full_name">Full Name</label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="full_name"  // Changed from 'name' to 'full_name'
+              name="full_name"  // Changed from 'name' to 'full_name'
+              value={formData.full_name}
+              onChange={handleChange}
               autoComplete="name"
               required
               placeholder="Enter your full name"
@@ -40,6 +71,8 @@ const Signup = () => {
               type="email"
               id="email"
               name="email"
+              value={formData.email}
+              onChange={handleChange}
               autoComplete="email"
               required
               placeholder="Enter your email"
@@ -51,6 +84,8 @@ const Signup = () => {
               type="tel"
               id="phone"
               name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               autoComplete="tel"
               required
               pattern="[0-9]{10}"
@@ -63,14 +98,18 @@ const Signup = () => {
               type="date"
               id="dob"
               name="dob"
+              value={formData.dob}
+              onChange={handleChange}
               required
             />
           </div>
           <div className="input-group">
-            <label htmlFor="goals">Wellness Goals</label>
+            <label htmlFor="wellness_goal">Wellness Goals</label>
             <select
-              id="goals"
-              name="goals"
+              id="wellness_goal"  // Changed from 'goals' to 'wellness_goal'
+              name="wellness_goal"  // Changed from 'goals' to 'wellness_goal'
+              value={formData.wellness_goal}
+              onChange={handleChange}
               required
             >
               <option value="">Select your primary goal</option>
@@ -95,4 +134,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
