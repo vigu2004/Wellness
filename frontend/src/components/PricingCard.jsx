@@ -8,7 +8,7 @@ const PricingCard = ({ title, price, storage, users, sendUp }) => {
     <div className="PricingCard">
       <header>
         <h2 className="card-title">{title}</h2>
-        <div className="card-price">${formattedPrice}</div>
+        <div className="card-price">{formattedPrice}</div>
       </header>
       <div className="card-features">
         <div>{storage}</div>

@@ -5,7 +5,7 @@ const AddSessionForm = ({ closeForm }) => {
   const [sessionName, setSessionName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [description, setDescription] = useState('');
+  const [batch, setBatch] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -15,7 +15,7 @@ const AddSessionForm = ({ closeForm }) => {
       sessionName,
       date,
       time,
-      description,
+      batch,
     };
 
     setIsSubmitting(true);
@@ -76,12 +76,17 @@ const AddSessionForm = ({ closeForm }) => {
             />
           </label>
           <label>
-            Description:
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+            Batch:
+            <select
+              value={batch}
+              onChange={(e) => setBatch(e.target.value)}
               required
-            ></textarea>
+            >
+              <option value="" disabled>Select Batch</option>
+              <option value="Batch A">Batch A</option>
+              <option value="Batch B">Batch B</option>
+              <option value="Batch C">Batch C</option>
+            </select>
           </label>
           <div className="form-buttons">
             <button type="submit" className="button-primary" disabled={isSubmitting}>
