@@ -1,136 +1,134 @@
-import React, { useState } from 'react';
-import './Signup.css';
+import React, { useState, useEffect } from 'react';
+import './AddSessionForm.css';
 
-const Signup = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    dob: '',
-    goals: '',
-  });
+const AddSessionForm = ({ closeForm }) => {
+  const [sessionName, setSessionName] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [batch, setBatch] = useState('');
+  const [batches, setBatches] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  // Fetch batches dynamically when the component mounts
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/batches');
+        const result = await response.json();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+        if (response.ok) {
+          setBatches(result); // Set batches to state
+        } else {
+          console.error("Failed to load batches");
+          alert("Failed to load batches");
+        }
+      } catch (error) {
+        console.error('Error fetching batches:', error);
+        alert("An error occurred while fetching batches");
+      }
+    };
+
+    fetchBatches();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const sessionData = {
+      sessionName,
+      date,
+      time,
+      batch, // Send batch ID
+    };
+
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('http://localhost:5000/api/sessions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(sessionData),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        const result = await response.json();
-        alert(`User registered successfully with ID: ${result.user_id}`);
+        alert(`Session "${sessionName}" added successfully!`);
+        closeForm();
       } else {
-        const error = await response.json();
-        alert(`Error: ${error.message}`);
+        alert(`Failed to add session: ${result.error}`);
       }
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      alert('An error occurred while registering. Please try again.');
+    } catch (error) {
+      console.error('Error adding session:', error);
+      alert('An error occurred while adding the session.');
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="signup-container">
-      <div className="background-pattern"></div>
-      <div className="fitness-icon fitness-icon-left"></div>
-      <div className="fitness-icon fitness-icon-right"></div>
-
-      <div className="signup-form">
-        <div className="form-icon"></div>
-        <h2>Join Our Wellness Journey</h2>
+    <div className="modal">
+      <div className="form-container">
+        <h2>Add New Session</h2>
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="name">Full Name</label>
+          <label>
+            Session Name:
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              autoComplete="name"
+              value={sessionName}
+              onChange={(e) => setSessionName(e.target.value)}
               required
-              placeholder="Enter your full name"
             />
-          </div>
-          <div className="input-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              autoComplete="email"
-              required
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              autoComplete="tel"
-              required
-              pattern="[0-9]{10}"
-              placeholder="Enter your phone number"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="dob">Date of Birth</label>
+          </label>
+          <label>
+            Date:
             <input
               type="date"
-              id="dob"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
               required
             />
-          </div>
-          <div className="input-group">
-            <label htmlFor="goals">Wellness Goals</label>
+          </label>
+          <label>
+            Time:
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Batch:
             <select
-              id="goals"
-              name="goals"
-              value={formData.goals}
-              onChange={handleChange}
+              value={batch}
+              onChange={(e) => setBatch(e.target.value)}
               required
             >
-              <option value="">Select your primary goal</option>
-              <option value="weight-loss">Weight Loss</option>
-              <option value="muscle-gain">Muscle Gain</option>
-              <option value="stress-reduction">Stress Reduction</option>
-              <option value="better-sleep">Better Sleep</option>
-              <option value="nutrition">Improved Nutrition</option>
+              <option value="" disabled>Select Batch</option>
+              {batches.length > 0 ? (
+                batches.map((batch) => (
+                  <option key={batch.id} value={batch.id}>
+                    {batch.batch_name} {/* Display batch name */}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No batches available</option> // Show a fallback message if no batches
+              )}
             </select>
+          </label>
+          <div className="form-buttons">
+            <button type="submit" className="button-primary" disabled={isSubmitting}>
+              {isSubmitting ? 'Adding...' : 'Add Session'}
+            </button>
+            <button type="button" className="button-secondary" onClick={closeForm}>
+              Cancel
+            </button>
           </div>
-          <button type="submit" className="submit-button" disabled={isLoading}>
-            {isLoading ? 'Signing Up...' : 'Start Your Wellness Journey'}
-          </button>
         </form>
-        <div className="login-link">
-          <p>Already a member?</p>
-          <a href="/login">Log In to Your Account</a>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default AddSessionForm;
