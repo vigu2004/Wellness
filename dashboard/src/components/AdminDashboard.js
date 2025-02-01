@@ -12,7 +12,20 @@ const AdminDashboard = () => {
   const closeForm = () => {
     setShowAddSessionForm(false);
   };
-
+  const data = [
+    { id: 1, name: "Alice", age: 25, city: "New York" },
+    { id: 2, name: "Bob", age: 28, city: "Los Angeles" },
+    { id: 3, name: "Charlie", age: 22, city: "Chicago" },
+    { id: 1, name: "Alice", age: 25, city: "New York" },
+    { id: 2, name: "Bob", age: 28, city: "Los Angeles" },
+    { id: 3, name: "Charlie", age: 22, city: "Chicago" },
+    { id: 1, name: "Alice", age: 25, city: "New York" },
+    { id: 2, name: "Bob", age: 28, city: "Los Angeles" },
+    { id: 3, name: "Charlie", age: 22, city: "Chicago" },
+    { id: 1, name: "Alice", age: 25, city: "New York" },
+    { id: 2, name: "Bob", age: 28, city: "Los Angeles" },
+    { id: 3, name: "Charlie", age: 22, city: "Chicago" },
+  ];
   return (
     <div className="dashboard">
       <header className="navbar">
@@ -34,6 +47,17 @@ const AdminDashboard = () => {
         <section className="dashboard-header">
           <h1>Admin Dashboard</h1>
         </section>
+        
+        <section className="session-management">
+          
+          <div className="action-buttons">
+            <button onClick={handleAddSessionClick} className="button-secondary">
+              Add New Session
+            </button>
+            <button className="button-secondary">Add Expert</button>
+
+          </div>
+        </section>
 
         <section className="dashboard-stats">
           <div className="card">
@@ -46,19 +70,74 @@ const AdminDashboard = () => {
           </div>
         </section>
 
-        <section className="session-management">
-          <h1>Manage Sessions ------------> </h1> 
-          <div className="action-buttons">
-            <button onClick={handleAddSessionClick} className="button-primary">
-              Add New Session
-            </button>
-            <button className="button-secondary">Edit Sessions</button>
-            <button className="button-secondary">Delete Sessions</button>
-          </div>
-        </section>
+        
 
         {showAddSessionForm && <AddSessionForm closeForm={closeForm} />}
       </div>
+      <div className='tableCont'>
+        <h1>Session details</h1>
+        <button className="button-primary">Export to excel</button>
+        <div className='innerTable'>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Session Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Batch</th>
+                <th>Edit details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.age}</td>
+                  <td>{item.city}</td>
+                  <td>{item.city}</td>
+                  <td><a href=''>Edit</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+          <br></br><br></br>
+      <div className='tableCont'>
+      <h1>User details</h1>
+      <button className="button-primary">Export to excel</button>
+      <div className='innerTable'>
+        <table>
+          <thead>
+            <tr>
+              <th style={{backgroundColor:'#1bcfb4'}}>UserID</th>
+              <th style={{backgroundColor:'#1bcfb4'}}>Name</th>
+              <th style={{backgroundColor:'#1bcfb4'}}>Phone</th>
+              <th style={{backgroundColor:'#1bcfb4'}}>Batch Assigned</th>
+              <th style={{backgroundColor:'#1bcfb4'}}>Batch</th>
+              <th style={{backgroundColor:'#1bcfb4'}}>Edit details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.age}</td>
+                <td>{item.city}</td>
+                <td>{item.city}</td>
+                <td><a href=''>Edit</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      </div>
+      
     </div>
   );
 };

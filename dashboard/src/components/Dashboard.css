@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 :root {
-  --primary-color: #4CAF50;
+  --primary-color: white;
   --primary-light: #81C784;
   --secondary-color: #8BC34A;
   --text-color: #333;
@@ -16,9 +16,10 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #8fd3f4 100%) !important;
+  /* background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #8fd3f4 100%) !important; */
   color: var(--text-color);
   transition: background-color var(--transition-speed) ease;
+  background-color: #f3f3f3;
 }
 
 
@@ -44,7 +45,7 @@ body {
 }
 
 .logo {
-  color: white;
+  color: #000000;
   font-size: 1.5rem;
   font-weight: 600;
 }
@@ -52,7 +53,7 @@ body {
 .navbar-nav ul {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: 1vw;
   padding: 0;
 }
 
@@ -61,7 +62,7 @@ body {
 }
 
 .navbar-nav a {
-  color: white;
+  color: #000000;
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
@@ -74,13 +75,14 @@ body {
 }
 
 .dashboard-content {
-  padding: 2rem;
+  width: 90%;
+  margin-left: 5%;
 }
 
 .dashboard-header h1 {
   font-size: 2.5rem;
-  color: var(--primary-color);
-  margin: 0;
+  color: #222222;
+  margin-top: 2vw;
 }
 
 .dashboard-stats {
@@ -92,9 +94,9 @@ body {
 
 .card {
   background-color: var(--card-bg);
-  border-radius: 12px;
+  border-radius: 0.5vw;
   padding: 1.5rem;
-  box-shadow: 0 4px 6px var(--shadow-color);
+  /* box-shadow: 0 4px 6px var(--shadow-color); */
   transition: all var(--transition-speed) ease;
 }
 
@@ -118,6 +120,7 @@ body {
 
 .session-management {
   margin-bottom: 2rem; /* This should provide the gap between the session sections */
+  margin-top: -2vw;
 }
 
 .session-management h2 {
@@ -134,7 +137,7 @@ body {
 
 .action-buttons {
   display: flex;
-  gap: 5rem; /* Adjusted for larger gap between buttons */
+  gap: 0.25vw; /* Adjusted for larger gap between buttons */
 }
 
 .button {
@@ -154,17 +157,21 @@ body {
 
 .button-primary {
   background-color: var(--primary-color);
-  color: white;
+  color: #00aaff;
+  border: 2px solid;
+  margin-top: -2vw;
 }
 
 .button-primary:hover {
-  background-color: #45a049;
+  background-color: #00aaff;
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px var(--shadow-color);
+  border: 2px solid #00aaff;
 }
 
 .button-secondary {
-  background-color: var(--secondary-color);
+  background-color: #fe9496;
   color: white;
 }
 
@@ -191,6 +198,48 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
+
+.tableCont{
+  width: 90%;
+  margin-left: 5%;
+  
+}
+.innerTable{
+  max-height: 350px;
+  overflow-y: auto
+}
+.table-container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  background-color: white;
+  
+}
+
+th {
+  background-color: #4bcbeb;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {

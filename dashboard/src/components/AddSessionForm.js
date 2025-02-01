@@ -118,7 +118,7 @@ const AddSessionForm = ({ closeForm }) => {
             </select>
           </label>
           <div className="form-buttons">
-            <button type="submit" className="button-primary" disabled={isSubmitting}>
+            <button type="submit" className="button-secondary" disabled={isSubmitting}>
               {isSubmitting ? 'Adding...' : 'Add Session'}
             </button>
             <button type="button" className="button-secondary" onClick={closeForm}>

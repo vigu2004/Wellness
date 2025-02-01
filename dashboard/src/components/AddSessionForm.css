@@ -56,7 +56,7 @@ form label {
 form input,
 form textarea,
 form select {
-  width: 100%;
+  width: 95%;
   padding: 1rem; /* Increased padding */
   margin-bottom: 1.5rem; /* Improved spacing */
   border: 1px solid #ccc;
