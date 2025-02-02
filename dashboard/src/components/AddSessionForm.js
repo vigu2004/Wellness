@@ -7,6 +7,8 @@ const AddSessionForm = ({ closeForm }) => {
   const [time, setTime] = useState('');
   const [batch, setBatch] = useState('');
   const [batches, setBatches] = useState([]);
+  const[addExpert,setAddExpert] = useState([]);
+  const [experts, setExperts] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fetch batches dynamically when the component mounts
@@ -28,7 +30,26 @@ const AddSessionForm = ({ closeForm }) => {
       }
     };
 
-    fetchBatches();
+    const fetchExperts = async() =>{
+      try{
+        const response = await fetch('http://localhost:5000/api/getAllExperts');
+        const result = await response.json();
+
+        if(response.ok){
+          setExperts(result);
+        }
+        else{
+          console.error("Failed to load experts");
+          alert("Failed to load experts");
+        }
+      }
+      catch(error){
+        console.error('Error fetching experts:', error);
+        alert("An error occurred while fetching experts");
+      }
+    };
+
+    fetchBatches();fetchExperts();
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   const handleSubmit = async (e) => {
@@ -117,6 +138,27 @@ const AddSessionForm = ({ closeForm }) => {
               )}
             </select>
           </label>
+
+          <label>
+            Add Expert:
+            <select
+              value={batch}
+              onChange={(e) => setExperts(e.target.value)}
+              required
+            >
+              <option value="" disabled>Select Expert</option>
+              {batches.length > 0 ? (
+                batches.map((experts) => (
+                  <option key={experts.id} value={experts.id}>
+                    {experts.name} {/* Display expert name */}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No experts available</option> // Show a fallback message if no batches
+              )}
+            </select>
+          </label>
+
           <div className="form-buttons">
             <button type="submit" className="button-secondary" disabled={isSubmitting}>
               {isSubmitting ? 'Adding...' : 'Add Session'}

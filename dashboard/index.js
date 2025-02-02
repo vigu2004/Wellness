@@ -51,6 +51,36 @@ app.post('/api/sessions', async (req, res) => {
     }
 });
 
+
+// POST endpoint to add a expert
+app.post('/api/createExpert', async (req, res) => {
+    const { expertName, age, email, phone } = req.body;
+
+    // Validate input
+    if (!expertName || !age || !email || !phone) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    try {
+        // Generate a new UUID for the session
+        const expertId = uuidv4();
+
+        // Insert session data into MySQL with the generated sessionId
+        const query = `
+      INSERT INTO experts (id, name, age, email, phone)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+        const [result] = await pool.execute(query, [expertId, expertName, age, email, phone]);
+
+        // Return the sessionId in the response
+        res.status(201).json({ message: 'Expert added successfully', expertId: expertId });
+    } catch (error) {
+        console.error('Error adding expert:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 // GET endpoint to fetch all batches
 app.get('/api/batches', async (req, res) => {
     try {
@@ -63,6 +93,41 @@ app.get('/api/batches', async (req, res) => {
     }
 });
 
+// GET endpoint to fetch all experts
+app.get('/api/getAllExperts', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM experts'; // Fetch all experts
+        const [experts] = await pool.execute(query);
+        res.status(200).json(experts); // Return all experts as JSON
+    } catch (error) {
+        console.error('Error fetching experts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// GET endpoint to fetch all users
+app.get('/api/getAllUsers', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM users'; // Fetch all users
+        const [users] = await pool.execute(query);
+        res.status(200).json(users); // Return all users as JSON
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// GET endpoint to fetch all sessions
+app.get('/api/getAllSessions', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM sessions'; // Fetch all sessions
+        const [sessions] = await pool.execute(query);
+        res.status(200).json(sessions); // Return all users as JSON
+    } catch (error) {
+        console.error('Error fetching sessions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);

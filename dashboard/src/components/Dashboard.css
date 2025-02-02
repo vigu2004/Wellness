@@ -39,7 +39,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 5%;
   box-shadow: 0 4px 6px var(--shadow-color);
   z-index: 10;
 }
@@ -98,6 +98,7 @@ body {
   padding: 1.5rem;
   /* box-shadow: 0 4px 6px var(--shadow-color); */
   transition: all var(--transition-speed) ease;
+  padding-bottom: 0;
 }
 
 .card:hover {
@@ -129,6 +130,11 @@ body {
   font-size: 1.8rem;
 }
 
+.card h3{
+  margin-top: 0;
+  margin-bottom: 2vw;
+  color: white;
+}
 /* Ensure enough space between the 'Manage Sessions' and 'Add New Sessions' sections */
 .manage-sessions,
 .add-new-session {
@@ -198,15 +204,44 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
+.card p{
+  font-size: 3vw;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 10px;
+    color: white;
+    text-decoration-color: white;
+    
+}
+.tableCont h1{
+  font-size: 2vw;
+    color: #4d4d4d;
+}
+
+#card1{
+  background-image: linear-gradient(to right,#4bcbeb,#00a8d2);
+}
+#card2{
+  background-image: linear-gradient(to right,#1bcfb4,#00ac92);
+}
+#card3{
+  background-image: linear-gradient(to right,#fe9496,#fe3e3e);
+}
 
 .tableCont{
   width: 90%;
   margin-left: 5%;
-  
+  background-color: white;
+  border-radius: 0.5vw;
+}
+.tableBox{
+  width: 95%;
+  margin-left: 2.5%;
 }
 .innerTable{
   max-height: 350px;
-  overflow-y: auto
+  overflow-y: auto;
+  margin-bottom: 30px;
 }
 .table-container {
   width: 80%;

@@ -58,7 +58,7 @@ form textarea,
 form select {
   width: 95%;
   padding: 1rem; /* Increased padding */
-  margin-bottom: 1.5rem; /* Improved spacing */
+  margin-bottom: 0; /* Improved spacing */
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
