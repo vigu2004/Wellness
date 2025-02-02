@@ -137,17 +137,17 @@ const AdminDashboard = () => {
 
         <section className="dashboard-stats">
           <div className="card" id='card1'>
-          <a href='#sesT' style={{textDecorationColor:'white'}}><p>25</p></a>
+          <a href='#sesT' style={{textDecorationColor:'white'}}><p>{allSessions.length}</p></a>
             <h3>Total Sessions</h3>
             
           </div>
           <div className="card" id='card2'>
-          <a href='#memT' style={{textDecorationColor:'white'}}><p>325</p></a>
+          <a href='#memT' style={{textDecorationColor:'white'}}><p>{allUsers.length}</p></a>
             <h3>Total Members</h3>
             
           </div>
           <div className="card" id='card3'>
-          <a href='#expT' style={{textDecorationColor:'white'}}><p>8</p></a>
+          <a href='#expT' style={{textDecorationColor:'white'}}><p>{allExperts.length}</p></a>
             <h3>Total Members</h3>
             
           </div>
@@ -200,12 +200,12 @@ const AdminDashboard = () => {
           <div className='innerTable'>
             <table>
               <thead>
-                <tr>
-                  <th style={{backgroundColor:'#1bcfb4'}}>UserID</th>
+                <tr>                  
                   <th style={{backgroundColor:'#1bcfb4'}}>Name</th>
                   <th style={{backgroundColor:'#1bcfb4'}}>Phone</th>
                   <th style={{backgroundColor:'#1bcfb4'}}>Email</th>
                   <th style={{backgroundColor:'#1bcfb4'}}>Batch</th>
+                  <th style={{backgroundColor:'#1bcfb4'}}>Goals</th>
                   <th style={{backgroundColor:'#1bcfb4'}}>Edit details</th>
                 </tr>
               </thead>
@@ -262,7 +262,7 @@ const AdminDashboard = () => {
       
       
       </div>
-      
+      <br></br><br></br>
     </div>
   );
 };

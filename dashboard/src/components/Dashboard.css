@@ -300,6 +300,15 @@ tr:hover {
   .button {
     width: 100%;
   }
+  .card p {
+    font-size: 12vw;
+    
+  }
+  .tableCont h1 {
+    font-size: 6vw;
+    color: #4d4d4d;
+    text-align: center;
+  }
 }
 
 /* Animations */
